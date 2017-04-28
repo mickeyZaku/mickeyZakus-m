@@ -1,37 +1,35 @@
-/**
- * Created by 40681 on 2017/4/27.
- */
 var vm = new Vue({
-    el:'#app',
-    data:{
-        todos:[{title:'喂o(=•ェ•=)m',isChecked:true},{title:'浇花',isChecked:false},{title:'学习',isChecked:false}],
-        temDo:'',
+    el: '#app',
+    data: {
+        todos: [{title: '喂o(=•ェ•=)m', isChecked: true}, {title: '浇花', isChecked: false}, {
+            title: '学习',
+            isChecked: false
+        }],
+        temTodo: '',
+        state: '',
         curTodo:'',
-        state:''
+        saveDate:''
     },
-    methods:{
+    methods: {
         remove(index){
-            this.todos.splice(index,1);
+            this.todos.splice(index, 1);
         },
-        addToDo(){
-            this.todos.push({title:this.temDo,isChecked:false});
-            this.temDo = '';
+        addTodo(){
+            this.todos.push({title: this.temTodo, isChecked: false});
+            this.temTodo = '';
         },
-        changeTitle(todo){
-          this.curTodo = todo;
+        changTitle(item){
+            this.curTodo = item;
         },
         reset(){
-            this.curTodo = '';
+            this.curTodo='';
+        },
+        originData(item){
+            this.saveDate = item.title;
+        },
+        toOrigin(item){
+            item.title = this.saveDate;
         }
-    },
-    watch:{
-      todos:{
-          handler(){
-              console.log(this.todos);
-              localStorage.setItem('todos',JSON.stringify(this.todos))
-          },
-          deep:true
-      }
     },
     directives:{
       autoFocus(ele,bindings){
@@ -40,34 +38,44 @@ var vm = new Vue({
           }
       }
     },
-    computed:{
-        cloneTodo(){
+    computed: {
+        count(){
+            return this.todos.filter(function (item) {
+                return !item.isChecked;
+            }).length;
+        },
+        cloneTodos(){
             if (this.state === 'all') {
                 return this.todos;
             }
             if (this.state === 'finished') {
                 return this.todos.filter(function (item) {
                     return item.isChecked;
-                })
+                });
             }
-            return this.todos.filter(function (item) {
-                    return !item.isChecked;
-            })
-        },
-        count:{
-           get(){
+            if(this.state==='unfinished'){
                 return this.todos.filter(function (item) {
                     return !item.isChecked;
-                }).length;
+                });
             }
         }
     },
+    watch: {
+        todos: {
+            handler(){
+                window.localStorage.setItem('todos', JSON.stringify(this.todos));
+            },
+            deep: true
+        },
+
+    },
     mounted(){
-        this.todos = JSON.parse(localStorage.getItem('todos'))|| [];
+        this.todos = JSON.parse(window.localStorage.getItem('todos')) || [];
     }
 });
-var listener = function () {
-    vm.state = window.location.hash.slice(1) || 'all';
+let listener = function () {
+    vm.state = location.hash.slice(1) || 'all';
+    console.log(vm.state);
 };
 listener();
-window.addEventListener('hashchange',listener,false);
+window.addEventListener('hashchange', listener);

@@ -14,29 +14,31 @@
 </head>
 <body>
 <div id="app">
-    <div class="navbar navbar-inverse">
-        <div class="container">
-            <div class="navbar-header">
-                <div class="navbar-brand">toDoList</div>
-            </div>
-        </div>
-    </div>
+   <div class="container">
+       <div class="navbar navbar-inverse">
+           <div class="container container-fluid">
+               <div class="navbar-header">
+                   <div class="navbar-brand">ToDoList</div>
+               </div>
+           </div>
+       </div>
+   </div>
     <div class="container">
-        <div class="h4 text-info">还有{{count}}件事代处理</div>
-        <input class="form-control" type="text" placeholder="请输入要处理的事情" v-model="temDo" @keyup.13="addToDo">
+        <h3 class="text-primary">你还有{{count}}件待处理的事情</h3>
+        <input type="text" class="form-control" placeholder="请输入待办事情" @keyup.13="addTodo" v-model="temTodo">
         <ul class="nav nav-pills">
-            <li :class="{active:state=='all'}"><a href="#all" >全部</a></li>
-            <li :class="{active:state=='finished'}"><a href="#finished" >已完成</a></li>
-            <li :class="{active:state=='unfinished'}"><a href="#unfinished" >待完成</a></li>
+            <li :class="{active:state=='all'}"><a href="#all">全部</a></li>
+            <li :class="{active:state=='finished'}"><a href="#finished">已完成</a></li>
+            <li :class="{active:state=='unfinished'}"><a href="#unfinished">未完成</a></li>
         </ul>
-        <ul class="list-group">
-            <li class="list-group-item" v-for="(item,index) of cloneTodo"  @dblclick="changeTitle(item)">
-                <div v-show="item!=curTodo">
+        <ul class="list-group" >
+            <li class="list-group-item"  v-for="(item,index) of cloneTodos"  @dblclick="changTitle(item)">
+                <div v-show="curTodo!=item">
                     <input type="checkbox" v-model="item.isChecked"/>
                     <span class="text-primary" :class="{delete:item.isChecked}">{{index+1}}.{{item.title}}</span>
-                    <button class="btn-danger pull-right" @click="remove(index)">&times;</button>
+                    <button role="button" class="pull-right btn-danger" @click="remove(index)">&times;</button>
                 </div>
-                <input type="text" v-model="item.title" @keyup.13="reset" @blur="reset" v-show="item==curTodo" v-auto-focus="curTodo==item"/>
+                <input type="text" v-model="item.title" v-show="curTodo==item" v-auto-Focus="curTodo==item" @keyup.13="reset" @blur="reset" @focus="originData(item)" @keyup.27="toOrigin(item)">
             </li>
         </ul>
     </div>
