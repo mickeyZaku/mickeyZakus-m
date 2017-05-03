@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+    <script src="lib/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app" style="margin-top:150px;">
+    <panel type="info" :has-btn="true" :author="name" @say-author="fn"></panel>
+</div>
+<template id="tem">
+    <div class="container">
+        <div class="panel" :class="style">
+             <div class="panel-heading">
+                 <slot name="heading">README.md</slot>
+             </div>
+            <div class="panel-body">
+                <slot>
+                    这是默认的内容
+                </slot>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-warning" v-if="'has-btn'" @click="say">点击查看作者</button>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    let panel = {
+        template:'#tem',
+        props:{
+            type:{default:'default',type:[String]},
+            'has-btn':{default:true,type:[Boolean]},
+            author:{}
+        },
+        methods:{
+          say(){
+//              alert(this.author);
+              this.$emit('say-author',this.author);
+          }
+        },
+        computed:{
+            style(){
+                return 'panel-'+this.type;
+            }
+        }
+    };
+    let vm = new Vue({
+        el: '#app',
+        components: {
+            panel
+        },
+        data:{
+            name:'mickeyZaku'
+        },
+        methods:{
+            fn(data){
+                alert(data);
+            }
+        }
+    })
+</script>
+</body>
+</html>
