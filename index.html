@@ -2,45 +2,176 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>toDoList</title>
-    <style>
-        .delete{
-            text-decoration: line-through;
-            color:#ccc;
-        }
-    </style>
+    <title>mickeyZakus-manager</title>
+    <link rel="stylesheet" href="lib/animate.css/animate.css">
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
 <div id="app">
-   <div class="container">
-       <div class="navbar navbar-inverse">
-           <div class="container container-fluid">
-               <div class="navbar-header">
-                   <div class="navbar-brand">ToDoList</div>
-               </div>
-           </div>
-       </div>
-   </div>
     <div class="container">
-        <h3 class="text-primary">你还有{{count}}件待处理的事情</h3>
-        <input type="text" class="form-control" placeholder="请输入待办事情" @keyup.13="addTodo" v-model="temTodo">
-        <ul class="nav nav-pills">
-            <li :class="{active:state=='all'}"><a href="#all">全部</a></li>
-            <li :class="{active:state=='finished'}"><a href="#finished">已完成</a></li>
-            <li :class="{active:state=='unfinished'}"><a href="#unfinished">未完成</a></li>
-        </ul>
-        <ul class="list-group" >
-            <li class="list-group-item"  v-for="(item,index) of cloneTodos"  @dblclick="changTitle(item)">
-                <div v-show="curTodo!=item">
-                    <input type="checkbox" v-model="item.isChecked"/>
-                    <span class="text-primary" :class="{delete:item.isChecked}">{{index+1}}.{{item.title}}</span>
-                    <button role="button" class="pull-right btn-danger" @click="remove(index)">&times;</button>
+        <div class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-collapse">
+                        <span class="sr-only">切换导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand text-capitalize" style="color: #d04a36">mickeyZaku</a>
                 </div>
-                <input type="text" v-model="item.title" v-show="curTodo==item" v-auto-Focus="curTodo==item" @keyup.13="reset" @blur="reset" @focus="originData(item)" @keyup.27="toOrigin(item)">
-            </li>
-        </ul>
+                <div class="collapse navbar-collapse " id="nav-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <router-link to="/home">首页</router-link>
+                        </li>
+                        <template v-if="login">
+                            <li>
+                                <router-link to="/profile">个人信息</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/toDoList">toDoList</router-link>
+                            </li>
+                            <li><a @click="logout">退出</a></li>
+                        </template>
+                        <template v-else>
+                            <li>
+                                <router-link to="/login">登录</router-link>
+                            </li>
+                        </template>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <router-view @check="checkLogin"></router-view>
+            </div>
+        </div>
     </div>
 </div>
-</body>
+<!--template-->
+<template id="home">
+    <slider :datas="images" :delay="3000"></slider>
+</template>
+<template id="profile">
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-stacked text-primary">
+                <li>
+                    <router-link to="/profile/info">个人信息</router-link>
+                </li>
+                <li>
+                    <router-link to="/profile/about">关于我</router-link>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <router-view></router-view>
+        </div>
+    </div>
+</template>
+<template id="toDoList">
+    <div class="container">
+        <h3 class="text-primary">你还有{{count}}件事情没有处理</h3>
+        <input type="text" class="form-control" placeholder="请输入待办事项" v-model="temTodo" @keyup.13="addTodo">
+        <ul class="nav nav-pills">
+            <li>
+                <router-link to="/toDoList/all">全部</router-link>
+            </li>
+            <li>
+                <router-link to="/toDoList/unfinished">未完成</router-link>
+            </li>
+            <li>
+                <router-link to="/toDoList/finished">已完成</router-link>
+            </li>
+        </ul>
+        <router-view :todos="todos"></router-view>
+    </div>
+</template>
+<template id="all">
+    <ul class="list-group">
+        <li class="list-group-item" v-for="(item,index) in todos"  @dblclick="updateTitle(item)" >
+            <div v-show="curTodo!=item">
+                <input type="checkbox" v-model="item.isChecked">
+                <span class="text-primary" :class="{delete:item.isChecked}">{{index+1}}.{{item.title}}</span>
+                <button class="btn-danger pull-right" type="button" style="padding:0 5px;"
+                        @click="removeTodo(index)">&times
+                </button>
+            </div>
+            <input type="text" v-show="curTodo == item" v-model="item.title" v-auto-focus="curTodo==item" @blur="reset" @keyup.13="reset" @keyup.27="toOrigin(item)" @focus="originDate(item)" >
+        </li>
+    </ul>
+</template>
+<template id="unfinished">
+    <ul class="list-group">
+        <li class="list-group-item" v-for="(item,index) in unTodos"  @dblclick="updateTitle(item)" >
+            <div v-show="curTodo!=item">
+                <input type="checkbox" v-model="item.isChecked">
+                <span class="text-primary" :class="{delete:item.isChecked}">{{index+1}}.{{item.title}}</span>
+                <button class="btn-danger pull-right" type="button" style="padding:0 5px;"
+                        @click="removeTodo(index)">&times
+                </button>
+            </div>
+            <input type="text" v-show="curTodo == item" v-model="item.title" v-auto-focus="curTodo==item" @blur="reset" @keyup.13="reset" @keyup.27="toOrigin(item)" @focus="originDate(item)" >
+        </li>
+    </ul>
+</template>
+<template id="finished">
+    <ul class="list-group">
+        <li class="list-group-item" v-for="(item,index) in unTodos"  @dblclick="updateTitle(item)" >
+            <div v-show="curTodo!=item">
+                <input type="checkbox" v-model="item.isChecked">
+                <span class="text-primary" :class="{delete:item.isChecked}">{{index+1}}.{{item.title}}</span>
+                <button class="btn-danger pull-right" type="button" style="padding:0 5px;"
+                        @click="removeTodo(index)">&times
+                </button>
+            </div>
+            <input type="text" v-show="curTodo == item" v-model="item.title" v-auto-focus="curTodo==item" @blur="reset" @keyup.13="reset" @keyup.27="toOrigin(item)" @focus="originDate(item)" >
+        </li>
+    </ul>
+</template>
+<template id="login">
+    <div class="container">
+        <div class="alert alert-danger" v-show="!userinfo && username!=''">用户名至少3位且小于6位</div>
+        <form>
+            <div class="form-group">
+                <label for="username" class="control-label text-info">用户名</label>
+                <input type="text" placeholder="请输入用户名" class="form-control" id="username" v-model="username">
+            </div>
+            <div class="form-group">
+                <label for="pwd" class="control-label text-info">密码</label>
+                <input type="text" placeholder="请输入密码" class="form-control" id="pwd" v-model="pwd">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" :disabled="!userinfo" @click="login">登录</button>
+            </div>
+        </form>
+    </div>
+</template>
+<template id="slider">
+    <div class="slider" @mouseenter="clear" @mouseleave="autoplay">
+        <div class="inner">
+            <transition name="out">
+                <img :src="datas[index].path" :alt="datas[index].title" v-if="show"/>
+            </transition>
+            <transition name="in">
+                <img :src="datas[index].path" :alt="datas[index].title" v-if="!show"/>
+            </transition>
+        </div>
+        <span class="left" @click="go(next)">&laquo;</span>
+        <span class="right" @click="go(prev)">&raquo;</span>
+        <div class="slider-bottom">
+            <a v-for="(item,index) in datas" @click="go(index)">{{index+1}}</a>
+        </div>
+    </div>
+</template>
+<script src="lib/vue/dist/vue.js"></script>
+<script src="lib/vue-router/dist/vue-router.js"></script>
+<script src="lib/jquery/dist/jquery.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
 <script src="index.js"></script>
+</body>
 </html>

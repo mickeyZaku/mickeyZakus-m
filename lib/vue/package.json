@@ -10,17 +10,19 @@
         "spec": "latest",
         "type": "tag"
       },
-      "D:\\app开发\\web\\toDoList"
+      "D:\\app开发\\web\\mickeyZakus"
     ]
   ],
+  "_cnpm_publish_time": 1493721025167,
   "_from": "vue@latest",
-  "_id": "vue@2.3.0",
+  "_hasShrinkwrap": false,
+  "_id": "vue@2.3.2",
   "_inCache": true,
   "_location": "/vue",
   "_nodeVersion": "7.8.0",
   "_npmOperationalInternal": {
     "host": "packages-18-east.internal.npmjs.com",
-    "tmp": "tmp/vue-2.3.0.tgz_1493274146495_0.15474186395294964"
+    "tmp": "tmp/vue-2.3.2.tgz_1493721022817_0.636890372261405"
   },
   "_npmUser": {
     "name": "yyx990803",
@@ -41,11 +43,11 @@
     "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/vue/-/vue-2.3.0.tgz",
-  "_shasum": "bc44db0488c5245c788304c7683efe7b4c862d82",
+  "_resolved": "https://registry.npm.taobao.org/vue/download/vue-2.3.2.tgz",
+  "_shasum": "9e52aae3593480be235ff227557837e69f98203a",
   "_shrinkwrap": null,
   "_spec": "vue",
-  "_where": "D:\\app开发\\web\\toDoList",
+  "_where": "D:\\app开发\\web\\mickeyZakus",
   "author": {
     "name": "Evan You"
   },
@@ -79,7 +81,7 @@
     "eslint-plugin-jasmine": "^2.1.0",
     "eslint-plugin-vue": "^2.0.0",
     "file-loader": "^0.10.1",
-    "flow-bin": "^0.39.0",
+    "flow-bin": "^0.45.0",
     "hash-sum": "^1.0.2",
     "he": "^1.1.0",
     "http-server": "^0.9.0",
@@ -98,6 +100,7 @@
     "karma-webpack": "^2.0.1",
     "lodash": "^4.17.1",
     "lodash.template": "^4.4.0",
+    "lodash.uniq": "^4.5.0",
     "lru-cache": "^4.0.2",
     "nightwatch": "^0.9.9",
     "nightwatch-helpers": "^1.2.0",
@@ -120,15 +123,17 @@
   },
   "directories": {},
   "dist": {
-    "shasum": "bc44db0488c5245c788304c7683efe7b4c862d82",
-    "tarball": "https://registry.npmjs.org/vue/-/vue-2.3.0.tgz"
+    "shasum": "9e52aae3593480be235ff227557837e69f98203a",
+    "size": 522492,
+    "noattachment": false,
+    "tarball": "http://registry.npm.taobao.org/vue/download/vue-2.3.2.tgz"
   },
   "files": [
     "src",
     "dist/*.js",
     "types/*.d.ts"
   ],
-  "gitHead": "a27c464692c83c3c953e76baaa0e51dc88e4a14a",
+  "gitHead": "b977c77d344cb1fc63a3daa50a4b96ef70e77ec5",
   "homepage": "https://github.com/vuejs/vue#readme",
   "keywords": [
     "vue"
@@ -144,6 +149,7 @@
   "module": "dist/vue.runtime.esm.js",
   "name": "vue",
   "optionalDependencies": {},
+  "publish_time": 1493721025167,
   "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
@@ -179,5 +185,5 @@
   },
   "typings": "types/index.d.ts",
   "unpkg": "dist/vue.js",
-  "version": "2.3.0"
+  "version": "2.3.2"
 }

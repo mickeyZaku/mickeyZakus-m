@@ -1,0 +1,110 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#app a{
+    cursor: pointer;
+}
+.router-link-active {
+    color: red !important;
+}
+.slider{
+    width: 520px;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+}
+.slider .inner{
+    width: 520px;
+    height: 280px;
+}
+.slider .inner img{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.slider span{
+    position: absolute;
+    width: 30px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 45px;
+    color: #fff;
+    border-radius: 4px;
+    top: 125px;
+    background: rgba(0,0,0,.4);
+    cursor: pointer;
+}
+.left{
+    left: 5px;
+}
+.right{
+    right: 5px;
+}
+.slider-bottom{
+    background: rgba(0,0,0,.4);
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    text-align: right;
+    padding:3px;
+}
+.slider-bottom a{
+    display: inline-block;
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+    line-height:30px;
+    border: 2px solid white;
+    text-align: center;
+    border-radius: 50%;
+    color: #FFF;
+    font-weight: bold;
+}
+.slider-bottom a+a{
+    margin-left:10px;
+}
+.in-enter-active{
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+    /*-webkit-transform: translateX(0);*/
+    /*-moz-transform: translateX(0);*/
+    /*-ms-transform: translateX(0);*/
+    /*-o-transform: translateX(0);*/
+    /*transform: translateX(0);*/
+    opacity: 1;
+}
+.in-enter{
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+    /*-webkit-transform: translateX(520px);*/
+    /*-moz-transform: translateX(520px);*/
+    /*-ms-transform: translateX(520px);*/
+    /*-o-transform: translateX(520px);*/
+    /*transform: translateX(520px);*/
+    opacity: 0;
+}
+.out-leave-active{
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+    /*-webkit-transform: translateX(-520px);*/
+    /*-moz-transform: translateX(-520px);*/
+    /*-ms-transform: translateX(-520px);*/
+    /*-o-transform: translateX(-520px);*/
+    /*transform: translateX(-520px);*/
+    opacity: 0;
+}
+.delete{
+    text-decoration: line-through;
+    color:#ccc;
+}
