@@ -33,7 +33,7 @@
                             <li>
                                 <router-link to="/toDoList">toDoList</router-link>
                             </li>
-                            <li><a @click="logout">退出</a></li>
+                            <li><a @click="logout" style="cursor: pointer">退出</a></li>
                         </template>
                         <template v-else>
                             <li>
@@ -139,11 +139,11 @@
         <form>
             <div class="form-group">
                 <label for="username" class="control-label text-info">用户名</label>
-                <input type="text" placeholder="请输入用户名" class="form-control" id="username" v-model="username">
+                <input type="text" placeholder="请输入用户名" class="form-control" id="username" v-model="username" autocomplete="off">
             </div>
             <div class="form-group">
                 <label for="pwd" class="control-label text-info">密码</label>
-                <input type="text" placeholder="请输入密码" class="form-control" id="pwd" v-model="pwd">
+                <input type="text" placeholder="请输入密码" class="form-control" id="pwd" v-model="pwd" autocomplete="off">
             </div>
             <div class="form-group">
                 <button type="button" class="btn btn-primary" :disabled="!userinfo" @click="login">登录</button>

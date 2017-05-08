@@ -282,7 +282,8 @@ let routes = [
             {path: '/', component: info},
             {path: 'info', component: info},
             {path: 'about', component: about}
-        ]
+        ],
+        meta:{needLogin:true}//需要登录才能查看
     },
     {path: '/login', component: login},
     {path: '/todoList', component: toDoList, children: [{path: 'all', component: all}, {path: 'unfinished', component: unfinished}, {path: 'finished', component: finished}, {path: '/', component: all}]},
@@ -294,6 +295,20 @@ let routes = [
  */
 let router = new VueRouter({
     routes
+});
+router.beforeEach((to,from ,next)=>{
+    //路由上有一个属性，此属性叫matched 默认时数组类型
+//        to.matched有一个叫meta.needLogin说明需要验证
+    let flag = to.matched.some(item=>item.meta.needLogin);
+    if (flag) {
+        if (Boolean(localStorage.getItem('login'))) {
+            next();
+        }else{
+            next({path:'/login'});
+        }
+    }else{
+        next();
+    }
 });
 /**
  * 根组件
